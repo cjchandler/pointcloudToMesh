@@ -1,0 +1,3 @@
+/home/cjchandler/pointcloudToMesh/build/CMakeFiles/rebuild_cache.dir
+/home/cjchandler/pointcloudToMesh/build/CMakeFiles/pointcloudToMESH.dir
+/home/cjchandler/pointcloudToMesh/build/CMakeFiles/edit_cache.dir

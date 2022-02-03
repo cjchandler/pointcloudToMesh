@@ -117,33 +117,33 @@ void create_mesh(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud,int& surface_mode,in
        std::cout << "Using mls method estimation...";
 
        pcl::PointCloud<pcl::PointNormal>::Ptr mls_points (new pcl::PointCloud<pcl::PointNormal>());
-       pcl::MovingLeastSquares<pcl::PointXYZ, pcl::PointNormal> mls;       
+       pcl::MovingLeastSquares<pcl::PointXYZ, pcl::PointNormal> mls;
 
        //Set parameters
-       mls.setComputeNormals(true);  
+       mls.setComputeNormals(true);
        mls.setInputCloud(cloudTranslated);
       // mls.setDilationIterations(10);
        //mls.setDilationVoxelSize(0.5);
        //mls.setSqrGaussParam(2.0);
        //mls.setUpsamplingRadius(5);
-       //mls.setPolynomialOrder (2); 
+       //mls.setPolynomialOrder (2);
        //mls.setPointDensity(30);
        mls.setSearchMethod(kdtree_for_points);
        mls.setSearchRadius(0.03);
-       mls.process(*mls_points);  
+       mls.process(*mls_points);
 
        pcl::PointCloud<pcl::PointXYZ>::Ptr temp(new pcl::PointCloud<pcl::PointXYZ>());
 
        for(int i = 0; i < mls_points->points.size(); i++) {
 
               pcl::PointXYZ pt;
-              pt.x = cloud->points[i].x; 
-              pt.y = cloud->points[i].y; 
-              pt.z = cloud->points[i].z; 
+              pt.x = cloud->points[i].x;
+              pt.y = cloud->points[i].y;
+              pt.z = cloud->points[i].z;
 
-              temp->points.push_back(pt);            
+              temp->points.push_back(pt);
         }
-        
+
 
        pcl::concatenateFields (*temp, *mls_points, *cloud_with_normals);
        std::cout << "[OK]" << std::endl;
@@ -164,7 +164,7 @@ void create_mesh(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud,int& surface_mode,in
        pcl::concatenateFields(*cloud, *normals, *cloud_with_normals);
 
        std::cout << "[OK]" << std::endl;
-     
+
      }else{
         std::cout << "Select: '1' for normal method estimation \n '2' for mls normal estimation " << std::endl;
         std::exit(-1);
@@ -209,7 +209,7 @@ void create_mesh(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud,int& surface_mode,in
        std::cout << "[OK]" << std::endl;
 
      }else if(poisson_mode){
- 
+
         std::cout << "Using surface method: poisson ..." << std::endl;
 
         int nThreads=8;
@@ -254,46 +254,46 @@ void create_mesh(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud,int& surface_mode,in
  }
 
 void vizualizeMesh(pcl::PointCloud<pcl::PointXYZRGB>::Ptr & cloud,pcl::PolygonMesh &mesh){
-
-  boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer ("MAP3D MESH"));
-
-  int PORT1 = 0;
-  viewer->createViewPort(0.0, 0.0, 0.5, 1.0, PORT1);
-  viewer->setBackgroundColor (0, 0, 0, PORT1);
-  viewer->addText("ORIGINAL", 10, 10, "PORT1", PORT1);
-
-  int PORT2 = 0;
-  viewer->createViewPort(0.5, 0.0, 1.0, 1.0, PORT2);
-  viewer->setBackgroundColor (0, 0, 0, PORT2);
-  viewer->addText("MESH", 10, 10, "PORT2", PORT2);
-  viewer->addPolygonMesh(mesh,"mesh",PORT2);
-
-  viewer->addCoordinateSystem();
-  pcl::PointXYZ p1, p2, p3;
-
-  p1.getArray3fMap() << 1, 0, 0;
-  p2.getArray3fMap() << 0, 1, 0;
-  p3.getArray3fMap() << 0,0.1,1;
-
-  viewer->addText3D("x", p1, 0.2, 1, 0, 0, "x_");
-  viewer->addText3D("y", p2, 0.2, 0, 1, 0, "y_");
-  viewer->addText3D ("z", p3, 0.2, 0, 0, 1, "z_");
-
-  if(cloud->points[0].r <= 0 and cloud->points[0].g <= 0 and cloud->points[0].b<= 0 ){
-    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> color_handler(cloud,255,255,0);
-    viewer->removeAllPointClouds(0);
-    viewer->addPointCloud(cloud,color_handler,"original_cloud",PORT1);
-  }else{
-    viewer->addPointCloud(cloud,"original_cloud",PORT1);
-  }
-    
-  viewer->initCameraParameters ();
-  viewer->resetCamera();
-
-  std::cout << "Press [q] to exit!" << std::endl;
-  while (!viewer->wasStopped ()){
-      viewer->spin();
-  }
+  //
+  // boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer ("MAP3D MESH"));
+  //
+  // int PORT1 = 0;
+  // viewer->createViewPort(0.0, 0.0, 0.5, 1.0, PORT1);
+  // viewer->setBackgroundColor (0, 0, 0, PORT1);
+  // viewer->addText("ORIGINAL", 10, 10, "PORT1", PORT1);
+  //
+  // int PORT2 = 0;
+  // viewer->createViewPort(0.5, 0.0, 1.0, 1.0, PORT2);
+  // viewer->setBackgroundColor (0, 0, 0, PORT2);
+  // viewer->addText("MESH", 10, 10, "PORT2", PORT2);
+  // viewer->addPolygonMesh(mesh,"mesh",PORT2);
+  //
+  // viewer->addCoordinateSystem();
+  // pcl::PointXYZ p1, p2, p3;
+  //
+  // p1.getArray3fMap() << 1, 0, 0;
+  // p2.getArray3fMap() << 0, 1, 0;
+  // p3.getArray3fMap() << 0,0.1,1;
+  //
+  // viewer->addText3D("x", p1, 0.2, 1, 0, 0, "x_");
+  // viewer->addText3D("y", p2, 0.2, 0, 1, 0, "y_");
+  // viewer->addText3D ("z", p3, 0.2, 0, 0, 1, "z_");
+  //
+  // if(cloud->points[0].r <= 0 and cloud->points[0].g <= 0 and cloud->points[0].b<= 0 ){
+  //   pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> color_handler(cloud,255,255,0);
+  //   viewer->removeAllPointClouds(0);
+  //   viewer->addPointCloud(cloud,color_handler,"original_cloud",PORT1);
+  // }else{
+  //   viewer->addPointCloud(cloud,"original_cloud",PORT1);
+  // }
+  //
+  // viewer->initCameraParameters ();
+  // viewer->resetCamera();
+  //
+  // std::cout << "Press [q] to exit!" << std::endl;
+  // while (!viewer->wasStopped ()){
+  //     viewer->spin();
+  // }
 }
 /*
 void cloudPointFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr & cloud,pcl::PointCloud<pcl::PointXYZ>::Ptr& filterCloud){
@@ -316,165 +316,33 @@ int main(int argc, char **argv){
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZRGB>());
   pcl::PolygonMesh cl;
   std::vector<int> filenames;
-  bool file_is_pcd = false;
-  bool file_is_ply = false;
-  bool file_is_txt = false;
-  bool file_is_xyz = false;  
+
+
+
 
   if(argc < 5 or argc > 5){
       printUsage(argv[0]);
       return -1;
   }
 
-  pcl::console::TicToc tt;
-  pcl::console::print_highlight("Loading ");
 
-  filenames = pcl::console::parse_file_extension_argument(argc, argv, ".ply");
-  if(filenames.size()<=0){
-      filenames = pcl::console::parse_file_extension_argument(argc, argv, ".pcd");
-      if(filenames.size()<=0){
-          filenames = pcl::console::parse_file_extension_argument(argc, argv, ".txt");
-          if(filenames.size()<=0){
-              filenames = pcl::console::parse_file_extension_argument(argc, argv, ".xyz");
-              if(filenames.size()<=0){
-                  printUsage (argv[0]);
-                  return -1;
-              }else if(filenames.size() == 1){
-                  file_is_xyz = true;
-              }
-          }else if(filenames.size() == 1){
-             file_is_txt = true;
-        }
-    }else if(filenames.size() == 1){
-          file_is_pcd = true;
-    }
-  }
-  else if(filenames.size() == 1){
-      file_is_ply = true;
-  }else{
-      printUsage (argv[0]);
-      return -1;
-  }
 
-  if(file_is_pcd){ 
-      if(pcl::io::loadPCDFile(argv[filenames[0]], *cloud) < 0){
-              std::cout << "Error loading point cloud " << argv[filenames[0]]  << "\n";
-              return -1;
-      }
-      pcl::console::print_info("\nFound pcd file.\n");
-      pcl::console::print_info ("[done, ");
-      pcl::console::print_value ("%g", tt.toc ());
-      pcl::console::print_info (" ms : ");
-      pcl::console::print_value ("%d", cloud->size ());
-      pcl::console::print_info (" points]\n");
-    }else if(file_is_ply){
-      pcl::io::loadPLYFile(argv[filenames[0]],*cloud);
-      if(cloud->points.size()<=0 or cloud->points[0].x<=0 and cloud->points[0].y<=0 and cloud->points[0].z<=0){
-          pcl::console::print_warn("\nloadPLYFile could not read the cloud, attempting to loadPolygonFile...\n");
-          pcl::io::loadPolygonFile(argv[filenames[0]], cl);
-          pcl::fromPCLPointCloud2(cl.cloud, *cloud);
-          if(cloud->points.size()<=0 or cloud->points[0].x<=0 and cloud->points[0].y<=0 and cloud->points[0].z<=0){
-              pcl::console::print_warn("\nloadPolygonFile could not read the cloud, attempting to PLYReader...\n");
-              pcl::PLYReader plyRead;
-              plyRead.read(argv[filenames[0]],*cloud);
-              if(cloud->points.size()<=0 or cloud->points[0].x<=0 and cloud->points[0].y<=0 and cloud->points[0].z<=0){
-                  pcl::console::print_error("\nError. ply file is not compatible.\n");
-                  return -1;
-              }
-          }
-       }
 
-      pcl::console::print_info("\nFound ply file.");
-      pcl::console::print_info ("[done, ");
-      pcl::console::print_value ("%g", tt.toc ());
-      pcl::console::print_info (" ms : ");
-      pcl::console::print_value ("%d", cloud->size ());
-      pcl::console::print_info (" points]\n");
-
-    }else if(file_is_txt){
-      std::ifstream file(argv[filenames[0]]);
-      if(!file.is_open()){
-          std::cout << "Error: Could not find "<< argv[filenames[0]] << std::endl;
-          return -1;
-      }
-      
-      std::cout << "file opened." << std::endl;
-      double x_,y_,z_;
-      unsigned int r, g, b; 
-
-      while(file >> x_ >> y_ >> z_ >> r >> g >> b){
-          pcl::PointXYZRGB pt;
-          pt.x = x_;
-          pt.y = y_;
-          pt.z= z_;            
-          
-          uint8_t r_, g_, b_; 
-          r_ = uint8_t(r); 
-          g_ = uint8_t(g); 
-          b_ = uint8_t(b); 
-
-          uint32_t rgb_ = ((uint32_t)r_ << 16 | (uint32_t)g_ << 8 | (uint32_t)b_); 
-          pt.rgb = *reinterpret_cast<float*>(&rgb_);               
-              
-          cloud->points.push_back(pt);
-          //std::cout << "pointXYZRGB:" <<  pt << std::endl;
-      }      
-     
-      pcl::console::print_info("\nFound txt file.\n");
-      pcl::console::print_info ("[done, ");
-      pcl::console::print_value ("%g", tt.toc ());
-      pcl::console::print_info (" ms : ");
-      pcl::console::print_value ("%d", cloud->points.size ());
-      pcl::console::print_info (" points]\n");
-      
-  }else if(file_is_xyz){
-  
-      std::ifstream file(argv[filenames[0]]);
-      if(!file.is_open()){
-          std::cout << "Error: Could not find "<< argv[filenames[0]] << std::endl;
-          return -1;
-      }
-      
-      std::cout << "file opened." << std::endl;
-      double x_,y_,z_;
-
-      while(file >> x_ >> y_ >> z_){
-          
-          pcl::PointXYZRGB pt;
-          pt.x = x_;
-          pt.y = y_;
-          pt.z= z_;            
-          
-          cloud->points.push_back(pt);
-          //std::cout << "pointXYZRGB:" <<  pt << std::endl;
-      }      
-     
-      pcl::console::print_info("\nFound xyz file.\n");
-      pcl::console::print_info ("[done, ");
-      pcl::console::print_value ("%g", tt.toc ());
-      pcl::console::print_info (" ms : ");
-      pcl::console::print_value ("%d", cloud->points.size ());
-      pcl::console::print_info (" points]\n");
-  }
 
   cloud->width = (int) cloud->points.size ();
   cloud->height = 1;
   cloud->is_dense = true;
 
+  std::string input = argv[1];
   std::string select_mode = argv[2];
   std::string select_normal_method = argv[3];//10
   std::string output_dir = argv[4];//10
 
-  int surface_mode = std::atoi(select_mode.c_str()); 
-  int normal_method = std::atoi(select_normal_method.c_str()); 
- 
-  boost::filesystem::path dirPath(output_dir);     
+  int surface_mode = std::atoi(select_mode.c_str());
+  int normal_method = std::atoi(select_normal_method.c_str());
 
-  if(not boost::filesystem::exists(dirPath) or not boost::filesystem::is_directory(dirPath)){
-      pcl::console::print_error("\nError. does not exist or it's not valid: ");
-      std::cout << output_dir << std::endl;
-      std::exit(-1);
-  }
+  pcl::PLYReader Reader;
+  Reader.read(input, *cloud);
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xyz (new pcl::PointCloud<pcl::PointXYZ>());
   pcl::copyPointCloud(*cloud,*cloud_xyz);
@@ -485,7 +353,7 @@ int main(int argc, char **argv){
   pcl::PolygonMesh cloud_mesh;
   create_mesh(cloud_xyz,surface_mode,normal_method,cloud_mesh);
 
-  output_dir += "/cloud_mesh.ply";
+  // output_dir += "/cloud_mesh.stl";
 
   std::string sav = "saved mesh in:";
   sav += output_dir;
@@ -497,13 +365,12 @@ int main(int argc, char **argv){
   pcl::console::print_info(sav.c_str());
   std::cout << std::endl;
 
-  pcl::io::savePLYFileBinary(output_dir.c_str(),cloud_mesh);
+  pcl::io::savePolygonFileSTL(output_dir.c_str(),cloud_mesh,true);
   //pcl::io::savePolygonFilePLY(output_dir.c_str(),cloud_mesh,true);
-           
-           
-  vtkObject::GlobalWarningDisplayOff(); // Disable vtk render warning   
+
+
+  vtkObject::GlobalWarningDisplayOff(); // Disable vtk render warning
   vizualizeMesh(cloud,cloud_mesh);
-   
+
   return 0;
 }
-
