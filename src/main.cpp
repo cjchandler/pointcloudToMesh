@@ -29,7 +29,7 @@
 #include <pcl/ModelCoefficients.h>
 
 #include <pcl/features/normal_3d.h>
-#include <pcl/features/gasd.h>
+#include <pcl/features/grsd.h>
 #include <pcl/features/normal_3d_omp.h>
 
 #include <pcl/filters/crop_box.h>

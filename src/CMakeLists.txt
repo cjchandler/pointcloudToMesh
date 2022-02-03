@@ -17,7 +17,7 @@ message("=========================================")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # set corresponding package directories
-set(PCL_DIR /opt/pcl-1.9.0/build)
+set(PCL_DIR /usr/include/pcl-1.8/)
 
 # Include dependencies of pcl 1.8.1 in project directorie
 set(CMAKE_MODULE_PATH ${PCL_DIR}/../cmake/Modules)
