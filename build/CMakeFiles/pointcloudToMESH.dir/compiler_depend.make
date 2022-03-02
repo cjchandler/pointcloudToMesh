@@ -2519,8 +2519,11 @@ CMakeFiles/pointcloudToMESH.dir/main.cpp.o: /home/cjchandler/pointcloudToMesh/sr
   /usr/include/pcl-1.8/pcl/surface/vtk_smoothing/vtk.h \
   /usr/include/pcl-1.8/pcl/surface/gp3.h \
   /usr/include/pcl-1.8/pcl/surface/convex_hull.h \
-  /usr/include/boost/algorithm/algorithm.hpp
+  /usr/include/boost/algorithm/algorithm.hpp \
+  /usr/include/pcl-1.8/pcl/surface/vtk_smoothing/vtk_mesh_quadric_decimation.h
 
+
+/usr/include/pcl-1.8/pcl/surface/vtk_smoothing/vtk_mesh_quadric_decimation.h:
 
 /usr/include/boost/algorithm/algorithm.hpp:
 

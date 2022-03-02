@@ -65,6 +65,9 @@
 #include <fstream>
 #include <string>
 
+#include <pcl/surface/vtk_smoothing/vtk_mesh_quadric_decimation.h>
+
+
 void printUsage (const char* progName){
   std::cout << "\nUsage: " << progName << " <input cloud> <surface method> <normal estimation method> <output dir>"  << std::endl;
   std::cout << "surface method: \n '1' for poisson \n '2' for gp3" << std::endl;
@@ -351,9 +354,12 @@ int main(int argc, char **argv){
   //cloudPointFilter(cloud_xyz,cloud_xyz_filtered);
 
   pcl::PolygonMesh cloud_mesh;
+  pcl::PolygonMesh simple_mesh;
   create_mesh(cloud_xyz,surface_mode,normal_method,cloud_mesh);
 
-  // output_dir += "/cloud_mesh.stl";
+  cout <<  " cloud mesh size() "<< cloud_mesh.polygons.size() <<endl;
+
+  //  output_dir += "/cloud_mesh.ply";
 
   std::string sav = "saved mesh in:";
   sav += output_dir;
@@ -365,12 +371,12 @@ int main(int argc, char **argv){
   pcl::console::print_info(sav.c_str());
   std::cout << std::endl;
 
+  // pcl::io::saveSTLFileBinary(output_dir.c_str(),cloud_mesh);
   pcl::io::savePolygonFileSTL(output_dir.c_str(),cloud_mesh,true);
-  //pcl::io::savePolygonFilePLY(output_dir.c_str(),cloud_mesh,true);
 
 
-  vtkObject::GlobalWarningDisplayOff(); // Disable vtk render warning
-  vizualizeMesh(cloud,cloud_mesh);
+
+
 
   return 0;
 }
